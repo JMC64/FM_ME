@@ -17,14 +17,15 @@ groupbox bounds(0, 0, 140, 280) identchannel("GB_Menu") text("Menu") colour(178,
 {
 button bounds(10, 25, 120, 30) channel("But_Call_MainOsc") value(0) text("Oscillator") radiogroup(1) $PROPERTY_BUT_OSCA 
 button bounds(10, 60, 120, 30) channel("But_Call_ADSR")  text("Envelopes") radiogroup(1) $PROPERTY_BUT_OSCA 
-button bounds(10, 95, 120, 30) channel("But_Call_Filters")  text("Filters") radiogroup(1) $PROPERTY_BUT_OSCA 
-button bounds(10, 130, 120, 30) channel("But_Call_Effects")  text("Effects") radiogroup(1) $PROPERTY_BUT_OSCA 
+button bounds(10, 95, 120, 30) channel("But_Call_LFO")  text("LFOs") radiogroup(1) $PROPERTY_BUT_OSCA
+button bounds(10, 130, 120, 30) channel("But_Call_Filters")  text("Filters") radiogroup(1) $PROPERTY_BUT_OSCA 
+button bounds(10, 165, 120, 30) channel("But_Call_Effects")  text("Effects") radiogroup(1) $PROPERTY_BUT_OSCA 
+
 
 filebutton bounds(10, 200, 55, 30) channel("filebutton") value(0) text("Save", "Save") mode("snapshot") $PROPERTY_BUT_OSCA 
 
-
 combobox bounds(10, 235, 120, 30) channel("PresetCombo") populate("*.snaps")
-button bounds(70, 190, 55, 40) channel("But_Call_Panic")  text("PANIC") latched(0) $PROPERTY_BUT_OSCA 
+button bounds(70, 200, 55, 30) channel("But_Call_Panic")  text("PANIC") latched(0) $PROPERTY_BUT_OSCA 
 }
 
 
@@ -126,22 +127,27 @@ encoder bounds(565, 180, 90,90) channel("Enc_FM_Amp_Mod_Osc5") value(1) text("Mo
 ;----------------------------------
 groupbox bounds(140, 0, 700, 280) identchannel("GB_ADSR") text("Envelope") visible(0) colour(178, 186, 230, 255) fontcolour:0(0, 0, 0, 255) outlinecolour(9, 16, 91, 255)
   {
+  
+  image bounds(10,43,333,68)  colour(201, 170, 245, 255) 
+  
+   image bounds(365,122,325,70)  colour(201, 170, 245, 255) 
+  
   checkbox bounds(320, 65, 15, 15) channel("ChkBox_ADSR_Osc2")  value(0)   shape("circle") $PROPERTY_CHKBOX_OSCA
-   checkbox bounds(352, 65, 15, 15) channel("ChkBox_ADSR_Osc3")  value(0)   shape("circle") $PROPERTY_CHKBOX_OSCA
+   checkbox bounds(372, 65, 15, 15) channel("ChkBox_ADSR_Osc3")  value(0)   shape("circle") $PROPERTY_CHKBOX_OSCA
    checkbox bounds(320, 140, 15, 15) channel("ChkBox_ADSR_Osc4")  value(0)   shape("circle") $PROPERTY_CHKBOX_OSCA
-   checkbox bounds(352, 140, 15, 15) channel("ChkBox_ADSR_Osc5")  value(0)   shape("circle") $PROPERTY_CHKBOX_OSCA
+   checkbox bounds(372, 140, 15, 15) channel("ChkBox_ADSR_Osc5")  value(0)   shape("circle") $PROPERTY_CHKBOX_OSCA
  
   label bounds(290, 90, 70, 12) text("Osc2") fontcolour:0(0, 0, 0, 255) 
-  encoder bounds(0, 35,  85,80) channel("Enc_ADSR_Attack_Osc2") identchannel("R_Enc_ADSR_Attack") value(0.01) text("Attack")  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
-  encoder bounds(80, 35,  85,80) channel("Enc_ADSR_Decay_Osc2") identchannel("R_Enc_ADSR_Decay")  value(0.01) text("Decay")  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
-  encoder bounds(160, 35, 85,80) channel("Enc_ADSR_Sustain_Osc2") identchannel("R_Enc_ADSR_Sustain") value(0.85) text("Sustain")  max(1) min(0.0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
-  encoder bounds(240, 35,  85,80) channel("Enc_ADSR_Release_Osc2") identchannel("R_Enc_ADSR_Release") value(0.01) text("Release")  max(3) min(0.00) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(0, 25,  85,80) channel("Enc_ADSR_Attack_Osc2") identchannel("R_Enc_ADSR_Attack") value(0.01) text("Attack")  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(80, 25,  85,80) channel("Enc_ADSR_Decay_Osc2") identchannel("R_Enc_ADSR_Decay")  value(0.01) text("Decay")  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(160, 25, 85,80) channel("Enc_ADSR_Sustain_Osc2") identchannel("R_Enc_ADSR_Sustain") value(0.85) text("Sustain")  max(1) min(0.0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(240, 25,  85,80) channel("Enc_ADSR_Release_Osc2") identchannel("R_Enc_ADSR_Release") value(0.01) text("Release")  max(3) min(0.00) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
 
-  label bounds(330, 90, 70, 12) text("Osc3") fontcolour:0(0, 0, 0, 255) 
-  encoder bounds(360, 35,  85,80) channel("Enc_ADSR_Attack_Osc3") identchannel("R_Enc_ADSR_Attack") value(0.01) text("Attack")  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
-  encoder bounds(440, 35,  85,80) channel("Enc_ADSR_Decay_Osc3") identchannel("R_Enc_ADSR_Decay")  value(0.01) text("Decay")  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
-  encoder bounds(520, 35, 85,80) channel("Enc_ADSR_Sustain_Osc3") identchannel("R_Enc_ADSR_Sustain") value(0.85) text("Sustain")  max(1) min(0.0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
-  encoder bounds(600, 35,  85,80) channel("Enc_ADSR_Release_Osc3") identchannel("R_Enc_ADSR_Release") value(0.01) text("Release")  max(3) min(0.00) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  label bounds(350, 90, 70, 12) text("Osc3") fontcolour:0(0, 0, 0, 255) 
+  encoder bounds(380, 25,  85,80) channel("Enc_ADSR_Attack_Osc3") identchannel("R_Enc_ADSR_Attack") value(0.01) text("Attack")  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(460, 25,  85,80) channel("Enc_ADSR_Decay_Osc3") identchannel("R_Enc_ADSR_Decay")  value(0.01) text("Decay")  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(540, 25, 85,80) channel("Enc_ADSR_Sustain_Osc3") identchannel("R_Enc_ADSR_Sustain") value(0.85) text("Sustain")  max(1) min(0.0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(620, 25,  85,80) channel("Enc_ADSR_Release_Osc3") identchannel("R_Enc_ADSR_Release") value(0.01) text("Release")  max(3) min(0.00) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
 
    label bounds(290, 160, 70, 12) text("Osc4") fontcolour:0(0, 0, 0, 255) 
   encoder bounds(0, 125,  85,60) channel("Enc_ADSR_Attack_Osc4") identchannel("R_Enc_ADSR_Attack") value(0.01)   max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
@@ -149,14 +155,14 @@ groupbox bounds(140, 0, 700, 280) identchannel("GB_ADSR") text("Envelope") visib
   encoder bounds(160, 125, 85,60) channel("Enc_ADSR_Sustain_Osc4") identchannel("R_Enc_ADSR_Sustain") value(0.85)  max(1) min(0.0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
   encoder bounds(240, 125,  85,60) channel("Enc_ADSR_Release_Osc4") identchannel("R_Enc_ADSR_Release") value(0.01)   max(3) min(0.00) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
 
-label bounds(330, 160, 70, 12) text("Osc5") fontcolour:0(0, 0, 0, 255) 
+label bounds(350, 160, 70, 12) text("Osc5") fontcolour:0(0, 0, 0, 255) 
 
-  encoder bounds(360, 125,  85,60) channel("Enc_ADSR_Attack_Osc5") identchannel("R_Enc_ADSR_Attack") value(0.01)   max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
-  encoder bounds(440, 125,  85,60) channel("Enc_ADSR_Decay_Osc5") identchannel("R_Enc_ADSR_Decay")  value(0.01)  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
-  encoder bounds(520, 125, 85,60) channel("Enc_ADSR_Sustain_Osc5") identchannel("R_Enc_ADSR_Sustain") value(0.85)  max(1) min(0.0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
-  encoder bounds(600, 125,  85,60) channel("Enc_ADSR_Release_Osc5") identchannel("R_Enc_ADSR_Release") value(0.01)   max(3) min(0.00) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(380, 125,  85,60) channel("Enc_ADSR_Attack_Osc5") identchannel("R_Enc_ADSR_Attack") value(0.01)   max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(460, 125,  85,60) channel("Enc_ADSR_Decay_Osc5") identchannel("R_Enc_ADSR_Decay")  value(0.01)  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(540, 125, 85,60) channel("Enc_ADSR_Sustain_Osc5") identchannel("R_Enc_ADSR_Sustain") value(0.85)  max(1) min(0.0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(620, 125,  85,60) channel("Enc_ADSR_Release_Osc5") identchannel("R_Enc_ADSR_Release") value(0.01)   max(3) min(0.00) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
 
-
+label bounds(110, 230, 90, 15) text("Main Osc1") fontcolour:0(0, 0, 0, 255)
   encoder bounds(180, 195,  85,80) channel("Enc_ADSR_Attack_Osc1") identchannel("R_Enc_ADSR_Attack") value(0.01) text("Attack")  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
   encoder bounds(260, 195,  85,80) channel("Enc_ADSR_Decay_Osc1") identchannel("R_Enc_ADSR_Decay")  value(0.01) text("Decay")  max(2) min(0.001) increment(0.001) valuetextbox(1) $PROPERTY_SLIDER_OSCA
   encoder bounds(340, 195, 85,80) channel("Enc_ADSR_Sustain_Osc1") identchannel("R_Enc_ADSR_Sustain") value(0.85) text("Sustain")  max(1) min(0.0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
@@ -165,7 +171,79 @@ label bounds(330, 160, 70, 12) text("Osc5") fontcolour:0(0, 0, 0, 255)
 
 }
 
+;-----------------------------------
+;- Region: LFO GUI
+;-----------------------------------
+groupbox bounds(140, 0, 700, 280) identchannel("GB_LFO") text("LFOs") visible(0) colour(178, 186, 230, 255) fontcolour:0(0, 0, 0, 255) outlinecolour(9, 16, 91, 255)
+{
+image bounds(10,42,27,20) file("./images/sine.png")
+image bounds(10,65,27,20) file("./images/saw.png")
+image bounds(10,88,27,20) file("./images/square.png")
+image bounds(10,111,27,20) file("./images/pulse.png")
+image bounds(10,134,27,20) file("./images/triangle.png")
 
+
+
+;- Region: __Oscillator 1 widgets
+label bounds(20, 25, 70, 12) text("Osc1") fontcolour:0(0, 0, 0, 255) 
+checkbox bounds(55, 45, 10, 10) channel("ChkBox_LFO_Osc1_Sine")    value(1)  radiogroup(7) shape("circle") $PROPERTY_CHKBOX_OSCA ;text("Sine")
+checkbox bounds(55, 69, 10, 10) channel("ChkBox_LFO_Osc1_Saw")       radiogroup(7) shape("circle") $PROPERTY_CHKBOX_OSCA ;text("Saw") 
+checkbox bounds(55, 95, 10, 10) channel("ChkBox_LFO_Osc1_Square")  radiogroup(7) shape("circle") $PROPERTY_CHKBOX_OSCA ; text("Square") 
+checkbox bounds(55, 117, 10, 10) channel("ChkBox_LFO_Osc1_Pulse")    radiogroup(7) shape("circle") $PROPERTY_CHKBOX_OSCA  ; text("Pulse") 
+checkbox bounds(55, 141, 10, 10) channel("ChkBox_LFO_Osc1_Triangle")     radiogroup(7) shape("circle") $PROPERTY_CHKBOX_OSCA ;text("Triangle") 
+
+;- Region: __Oscillator 2 widgets
+label bounds(80, 25, 70, 12) text("Osc2") fontcolour:0(0, 0, 0, 255) 
+checkbox bounds(110, 45, 10, 10) channel("ChkBox_LFO_Osc2_Sine")   text("Sine")   value(1) radiogroup(8) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(110, 69, 10, 10) channel("ChkBox_LFO_Osc2_Saw")   text("Saw")     radiogroup(8) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(110, 95, 10, 10) channel("ChkBox_LFO_Osc2_Square")   text("Square") radiogroup(8) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(110, 117, 10, 10) channel("ChkBox_LFO_Osc2_Pulse")   text("Pulse")   radiogroup(8) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(110, 141, 10, 10) channel("ChkBox_LFO_Osc2_Triangle")   text("Triangle")   radiogroup(8) shape("circle") $PROPERTY_CHKBOX_OSCA
+
+;- Region: __Oscillator 3 widgets
+label bounds(140, 25, 70, 12) text("Osc3") fontcolour:0(0, 0, 0, 255) 
+checkbox bounds(165, 45, 10, 10) channel("ChkBox_LFO_Osc3_Sine")   text("Sine")   value(1) radiogroup(9) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(165, 69, 10, 10) channel("ChkBox_LFO_Osc3_Saw")   text("Saw")     radiogroup(9) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(165, 95, 10, 10) channel("ChkBox_LFO_Osc3_Square")   text("Square") radiogroup(9) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(165, 117, 10, 10) channel("ChkBox_LFO_Osc3_Pulse")   text("Pulse")   radiogroup(9) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(165, 141, 10, 10) channel("ChkBox_LFO_Osc3_Triangle")   text("Triangle")   radiogroup(9) shape("circle") $PROPERTY_CHKBOX_OSCA
+
+;- Region: __Oscillator 4 widgets
+label bounds(195, 25, 70, 12) text("Osc4") fontcolour:0(0, 0, 0, 255) 
+checkbox bounds(220, 45, 10, 10) channel("ChkBox_LFO_Osc4_Sine")   text("Sine")   value(1) radiogroup(10) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(220, 69, 10, 10) channel("ChkBox_LFO_Osc4_Saw")   text("Saw")     radiogroup(10) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(220, 95, 10, 10) channel("ChkBox_LFO_Osc4_Square")   text("Square") radiogroup(10) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(220, 117, 10, 10) channel("ChkBox_LFO_Osc4_Pulse")   text("Pulse")   radiogroup(10) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(220, 141, 10, 10) channel("ChkBox_LFO_Osc4_Triangle")   text("Triangle")   radiogroup(10) shape("circle") $PROPERTY_CHKBOX_OSCA
+
+;- Region: __Oscillator 5 widgets
+label bounds(250, 25, 70, 12) text("Osc5") fontcolour:0(0, 0, 0, 255) 
+checkbox bounds(275, 45, 10, 10) channel("ChkBox_LFO_Osc5_Sine")   text("Sine")   value(1) radiogroup(11) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(275, 69, 10, 10) channel("ChkBox_LFO_Osc5_Saw")   text("Saw")     radiogroup(11) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(275, 95, 10, 10) channel("ChkBox_LFO_Osc5_Square")   text("Square") radiogroup(11) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(275, 117, 10, 10) channel("ChkBox_LFO_Osc5_Pulse")   text("Pulse")   radiogroup(11) shape("circle") $PROPERTY_CHKBOX_OSCA
+checkbox bounds(275, 141, 10, 10) channel("ChkBox_LFO_Osc5_Triangle")   text("Triangle")   radiogroup(11) shape("circle") $PROPERTY_CHKBOX_OSCA
+
+label bounds(10, 180, 70, 14) text("AMP") fontcolour:0(0, 0, 0, 255) align("left")
+label bounds(10, 240, 70, 14) text("FREQ") fontcolour:0(0, 0, 0, 255) align("left")
+encoder bounds(18, 160, 85, 50) channel("Enc_LFO_Amp_Osc1") value(0) max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ; text("Amp") 
+encoder bounds(18, 220, 85,50) channel("Enc_LFO_Freq_Osc1") value(1)   max(25) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq") 
+
+encoder bounds(72, 160, 85, 50) channel("Enc_LFO_Amp_Osc2") value(0) max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ; text("Amp") 
+encoder bounds(72, 220, 85,50) channel("Enc_LFO_Freq_Osc2") value(1)   max(25) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq") 
+
+
+encoder bounds(128, 160, 85, 50) channel("Enc_LFO_Amp_Osc3") value(0) max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ; text("Amp") 
+encoder bounds(128, 220, 85,50) channel("Enc_LFO_Freq_Osc3") value(1)   max(25) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq") 
+
+
+encoder bounds(184, 160, 85, 50) channel("Enc_LFO_Amp_Osc4") value(0) max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ; text("Amp") 
+encoder bounds(184, 220, 85,50) channel("Enc_LFO_Freq_Osc4") value(1)   max(25) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq") 
+
+encoder bounds(238, 160, 85, 50) channel("Enc_LFO_Amp_Osc5") value(0) max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ; text("Amp") 
+encoder bounds(238, 220, 85,50) channel("Enc_LFO_Freq_Osc5") value(1)   max(25) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq") 
+
+}
 
 ;-----------------------------------
 ;- Region: Filters GUI
@@ -386,47 +464,68 @@ instr ManageGUI
   ;**********************************************
   ; Manage the menu button and show the groupbox linked to the selected menu button
   if changed:k(chnget:k("But_Call_MainOsc"))==1 ||changed:k(chnget:k("But_Call_ADSR"))==1 ||\
-      changed:k(chnget:k("But_Call_Filters"))==1 ||changed:k(chnget:k("But_Call_Effects"))==1 then
+      changed:k(chnget:k("But_Call_Filters"))==1 ||changed:k(chnget:k("But_Call_Effects"))==1 || changed:k(chnget:k("But_Call_LFO"))==1 then
       if chnget:k("But_Call_MainOsc")==1 then
           chnset "visible(0)","GB_ADSR"
           chnset "visible(0)","GB_Filters"
           chnset "visible(0)","GB_Effects"
+          chnset "visible(0)","GB_LFO"
           chnset "visible(1)","GB_MainOSc"
+          
           gkFlag_ActiveGB_OSC = 1
           gkFlag_ActiveGB_ENV = 0
-          gkFlag_ActiveGB_FILT = 0
+          gkFlag_ActiveGB_FILT = 0 
           gkFlag_ActiveGB_EFFECT = 0
+          gkFlag_ActiveGB_LFO = 0
       endif
       if chnget:k("But_Call_ADSR")==1 then
           chnset "visible(0)","GB_Filters"
           chnset "visible(0)","GB_Effects"
           chnset "visible(0)","GB_MainOSc"
+          chnset "visible(0)","GB_LFO"
           chnset "visible(1)","GB_ADSR"
           gkFlag_ActiveGB_OSC = 0
           gkFlag_ActiveGB_ENV = 1
           gkFlag_ActiveGB_FILT = 0
           gkFlag_ActiveGB_EFFECT = 0
+          gkFlag_ActiveGB_LFO = 0
       endif
       if chnget:k("But_Call_Filters")==1 then
           chnset "visible(0)","GB_ADSR"
           chnset "visible(0)","GB_Effects"
           chnset "visible(0)","GB_MainOSc"
+          chnset "visible(0)","GB_LFO"
           chnset "visible(1)","GB_Filters"
           gkFlag_ActiveGB_OSC = 0
           gkFlag_ActiveGB_ENV = 0
           gkFlag_ActiveGB_FILT = 1
           gkFlag_ActiveGB_EFFECT = 0
+          gkFlag_ActiveGB_LFO = 0
       endif
       if chnget:k("But_Call_Effects")==1 then
           chnset "visible(0)","GB_ADSR"
           chnset "visible(0)","GB_Filters"
           chnset "visible(0)","GB_MainOSc"
+          chnset "visible(0)","GB_LFO"
           chnset "visible(1)","GB_Effects"
           gkFlag_ActiveGB_OSC = 0
           gkFlag_ActiveGB_ENV = 0
           gkFlag_ActiveGB_FILT = 0
           gkFlag_ActiveGB_EFFECT = 1
+          gkFlag_ActiveGB_LFO = 0
       endif
+      if chnget:k("But_Call_LFO")==1 then
+          chnset "visible(0)","GB_ADSR"
+          chnset "visible(0)","GB_Filters"
+          chnset "visible(0)","GB_MainOSc"
+          chnset "visible(0)","GB_Effects"
+          chnset "visible(1)","GB_LFO"
+          gkFlag_ActiveGB_OSC = 0
+          gkFlag_ActiveGB_ENV = 0
+          gkFlag_ActiveGB_FILT = 0
+          gkFlag_ActiveGB_EFFECT = 0
+          gkFlag_ActiveGB_LFO = 1
+      endif  
   endif
 
   ;**********************************************
@@ -794,8 +893,125 @@ endif
       
   endif
 
-
-
+;**********************************************
+  ;- Region: ___LFO GB
+  ;**********************************************
+    if gkFlag_ActiveGB_LFO ==1 then
+    
+    
+    ; REPEAT this group 4 time for each OSc
+    
+         if changed:k(chnget:k("ChkBox_LFO_Osc1_Sine"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc1_Saw"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc1_Square"))==1 \
+         ||changed:k(chnget:k("ChkBox_LFO_Osc1_Pulse"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc1_Triangle"))==1 then 
+            if chnget:k("ChkBox_LFO_Osc1_Sine")==1 then 
+                gk_LFO_Osc1_Mode = 1
+                reinit OSC1_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc1_Saw")==1 then 
+                 gk_LFO_Osc1_Mode = 2
+                 reinit OSC1_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc1_Square")==1 then 
+                 gk_LFO_Osc1_Mode = 3
+                 reinit OSC1_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc1_Pulse")==1 then 
+                 gk_LFO_Osc1_Mode = 4
+                 reinit OSC1_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc1_Triangle")==1 then 
+                 gk_LFO_Osc1_Mode = 5
+                 reinit OSC1_LFO_TABLE
+            endif
+        endif
+        
+        
+           if changed:k(chnget:k("ChkBox_LFO_Osc2_Sine"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc2_Saw"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc2_Square"))==1 \
+         ||changed:k(chnget:k("ChkBox_LFO_Osc2_Pulse"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc2_Triangle"))==1 then 
+            if chnget:k("ChkBox_LFO_Osc2_Sine")==1 then 
+                gk_LFO_Osc2_Mode = 1
+                reinit OSC2_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc2_Saw")==1 then 
+                 gk_LFO_Osc2_Mode = 2
+                 reinit OSC2_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc2_Square")==1 then 
+                 gk_LFO_Osc2_Mode = 3
+                 reinit OSC2_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc2_Pulse")==1 then 
+                 gk_LFO_Osc2_Mode = 4
+                 reinit OSC2_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc2_Triangle")==1 then 
+                 gk_LFO_Osc2_Mode = 5
+                 reinit OSC2_LFO_TABLE
+            endif
+        endif
+        
+        
+   if changed:k(chnget:k("ChkBox_LFO_Osc3_Sine"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc3_Saw"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc3_Square"))==1 \
+         ||changed:k(chnget:k("ChkBox_LFO_Osc3_Pulse"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc3_Triangle"))==1 then 
+            if chnget:k("ChkBox_LFO_Osc3_Sine")==1 then 
+                gk_LFO_Osc3_Mode = 1
+                reinit OSC3_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc3_Saw")==1 then 
+                 gk_LFO_Osc3_Mode = 2
+                 reinit OSC3_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc3_Square")==1 then 
+                 gk_LFO_Osc3_Mode = 3
+                 reinit OSC3_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc3_Pulse")==1 then 
+                 gk_LFO_Osc3_Mode = 4
+                 reinit OSC3_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc3_Triangle")==1 then 
+                 gk_LFO_Osc3_Mode = 5
+                 reinit OSC3_LFO_TABLE
+            endif
+        endif
+        
+        
+       if changed:k(chnget:k("ChkBox_LFO_Osc4_Sine"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc4_Saw"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc4_Square"))==1 \
+         ||changed:k(chnget:k("ChkBox_LFO_Osc4_Pulse"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc4_Triangle"))==1 then 
+            if chnget:k("ChkBox_LFO_Osc4_Sine")==1 then 
+                gk_LFO_Osc4_Mode = 1
+                reinit OSC4_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc4_Saw")==1 then 
+                 gk_LFO_Osc4_Mode = 2
+                 reinit OSC4_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc4_Square")==1 then 
+                 gk_LFO_Osc4_Mode = 3
+                 reinit OSC4_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc4_Pulse")==1 then 
+                 gk_LFO_Osc4_Mode = 4
+                 reinit OSC4_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc4_Triangle")==1 then 
+                 gk_LFO_Osc4_Mode = 5
+                 reinit OSC4_LFO_TABLE
+            endif
+        endif    
+        
+        
+   if changed:k(chnget:k("ChkBox_LFO_Osc5_Sine"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc5_Saw"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc5_Square"))==1 \
+         ||changed:k(chnget:k("ChkBox_LFO_Osc5_Pulse"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc5_Triangle"))==1 then 
+            if chnget:k("ChkBox_LFO_Osc5_Sine")==1 then 
+                gk_LFO_Osc5_Mode = 1
+                reinit OSC5_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc5_Saw")==1 then 
+                 gk_LFO_Osc5_Mode = 2
+                 reinit OSC5_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc5_Square")==1 then 
+                 gk_LFO_Osc5_Mode = 3
+                 reinit OSC5_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc5_Pulse")==1 then 
+                 gk_LFO_Osc5_Mode = 4
+                 reinit OSC5_LFO_TABLE
+            elseif chnget:k("ChkBox_LFO_Osc5_Triangle")==1 then 
+                 gk_LFO_Osc5_Mode = 5
+                 reinit OSC5_LFO_TABLE
+            endif
+        endif
+    ; ADD management of the encoder for LFO    
+        
+        
+        
+        
+        
+        
+    endif
 
  ;**********************************************
   ;- Region: ___Filters GB
@@ -1191,21 +1407,29 @@ endif
 
 
 
+OSC1_LFO_TABLE:
+    gi_LFO_TableOsc1 = 100 + i(gk_LFO_Osc1_Mode)
+rireturn
 
 
+OSC2_LFO_TABLE:
+    gi_LFO_TableOsc2 = 100 + i(gk_LFO_Osc2_Mode)
+rireturn
 
 
+OSC3_LFO_TABLE:
+    gi_LFO_TableOsc3 = 100 + i(gk_LFO_Osc3_Mode)
+rireturn
 
 
+OSC4_LFO_TABLE:
+    gi_LFO_TableOsc4 = 100 + i(gk_LFO_Osc4_Mode)
+rireturn
 
 
-
-
-
-
-
-
-
+OSC5_LFO_TABLE:
+    gi_LFO_TableOsc5 = 100 + i(gk_LFO_Osc5_Mode)
+rireturn
 
 
 OSC1_TABLE:
