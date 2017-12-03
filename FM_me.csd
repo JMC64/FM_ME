@@ -16,7 +16,7 @@ keyboard bounds(1,281, 839, 58) mouseoeverkeycolour(255, 255, 0, 128)
 groupbox bounds(0, 0, 140, 280) identchannel("GB_Menu") text("Menu") colour(178, 186, 230, 255) fontcolour:0(0, 0, 0, 255) outlinecolour(9, 16, 91, 255)
 {
 button bounds(10, 25, 120, 30) channel("But_Call_MainOsc") value(0) text("Oscillator") radiogroup(1) $PROPERTY_BUT_OSCA 
-button bounds(10, 60, 120, 30) channel("But_Call_ADSR")  text("Envelope - SubOsc") radiogroup(1) $PROPERTY_BUT_OSCA 
+button bounds(10, 60, 120, 30) channel("But_Call_ADSR")  text("Envelopes") radiogroup(1) $PROPERTY_BUT_OSCA 
 button bounds(10, 95, 120, 30) channel("But_Call_Filters")  text("Filters") radiogroup(1) $PROPERTY_BUT_OSCA 
 button bounds(10, 130, 120, 30) channel("But_Call_Effects")  text("Effects") radiogroup(1) $PROPERTY_BUT_OSCA 
 
@@ -167,6 +167,149 @@ label bounds(330, 160, 70, 12) text("Osc5") fontcolour:0(0, 0, 0, 255)
 
 
 
+;-----------------------------------
+;- Region: Filters GUI
+;----------------------------------
+
+groupbox bounds(140, 0, 700, 280) identchannel("GB_Filters") text("Filters") visible(0) colour(178, 186, 230, 255) fontcolour:0(0, 0, 0, 255) outlinecolour(9, 16, 91, 255)
+  {
+  checkbox bounds(20, 3, 70, 13) channel("ChkBox_Filter_On") text("On/Off") shape("circle") $PROPERTY_CHKBOX_OSCA
+
+  ;-----------------------------------
+  ;- Region: ___1-Encoders
+  rslider bounds(0, 20, 90, 100) channel("Enc_Filter_Mix") range(0,1,0.5,1,0.01) text("Mix") valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+  encoder bounds(90, 20, 90, 100) channel("Enc_Filter_CutOff") identchannel("R_Enc_Filter_CutOff") value(500) text("Cut Off")  max(3500) min(20) increment(5) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(180, 20, 90, 100) channel("Enc_Filter_Reson") identchannel("R_Enc_Filter_Reson") value(0.0) text("Resonance")  max(1) min(0.0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder bounds(270, 20, 90, 100) channel("Enc_Filter_Distor")  identchannel("R_Enc_Filter_Distor") value(0.01) text("Distorsion")  max(1) min(0.00) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+
+  ;-----------------------------------
+  ;- Region: ___2-CheckBoxes
+  checkbox bounds(370, 30, 100, 12) channel("ChkBox_Filter_Moogl")  text("Moogladder")  value(1) radiogroup(4) shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(370, 50, 100, 12) channel("ChkBox_Filter_LPF18")   text("LPF18")   radiogroup(4) shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(370, 70, 80, 12) channel("ChkBox_Filter_BQRez")   text("BQRez")    radiogroup(4) shape("circle") $PROPERTY_CHKBOX_OSCA
+  combobox bounds(370, 90, 90, 14) channel("Combo_Filter_BQRez") identchannel("R_Combo_Filter_BQRez") items("Low-Pass", "High-Pass", "Band-pass", "Band-Reject", "All-Pass")
+  checkbox bounds(490, 30, 70, 12) channel("ChkBox_Filter_Tone")      text("Tone")     radiogroup(4) shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(490, 50, 70, 12) channel("ChkBox_Filter_aTone")     text("aTone")     radiogroup(4) shape("circle") $PROPERTY_CHKBOX_OSCA
+  hslider bounds(550, 30, 140, 15) channel("Slider_Filter_Tonelayer") range(1,10,1,1,1)  valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+  hslider bounds(550, 50, 140, 15) channel("Slider_Filter_aTonelayer") range(1,10,1,1,1)  valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+
+  ;-----------------------------------
+  ;- Region: ___3-Pitch Follow
+  checkbox bounds(5, 145, 100, 12) channel("ChkBox_Filter_PitchFollowOn")   text("Pitch Follow")     shape("circle") $PROPERTY_CHKBOX_OSCA
+  encoder  bounds(-5, 165, 90, 70)   channel("Enc_Filter_Follow")      identchannel("R_Enc_Filter_Follow")   value(0)   max(2400) min(-2400) increment(10) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+
+  ;-----------------------------------
+  ;- Region: ___4-Cut-Off LFO
+  image    bounds(100, 130, 190, 130)  colour(216, 191, 216, 255)
+  label    bounds(160, 135, 80, 14) text("Cut-Off LFO") fontcolour(0, 0, 0, 255)
+  checkbox bounds(105, 135, 12, 12) channel("ChkBox_Filter_CutOff_LFO_On") value(0)     shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(110, 170, 80, 12) channel("ChkBox_Filter_CutOff_Line")   text("Line") value(1)  radiogroup(5) shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(110, 190, 80, 12) channel("ChkBox_Filter_CutOff_Sine")   text("Sine")   radiogroup(5) shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(110, 210, 80, 12) channel("ChkBox_Filter_CutOff_Seg")   text("Seg")    radiogroup(5) shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(110, 230, 80, 12) channel("ChkBox_Filter_CutOff_Exp")   text("Exp")    radiogroup(5) shape("circle") $PROPERTY_CHKBOX_OSCA
+  encoder  bounds(150, 150, 90, 90) channel("Enc_Filter_CutOff_Amp") identchannel("R_Enc_Filter_CutOff_Amp") text("Amp")  value(0.01)   max(2) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder  bounds(210, 150, 90, 90) channel("Enc_Filter_CutOff_Freq") identchannel("R_Enc_Filter_CutOff_Freq") text("Freq")  value(0.01)   max(4) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+
+  ;-----------------------------------
+  ;- Region: ___5-Resonnance LFO
+  image    bounds(300, 130, 190, 130)  colour(216, 191, 216, 255)
+  label    bounds(300, 135, 200, 14) text("Resonance LFO") fontcolour(0, 0, 0, 255)
+  checkbox bounds(305, 135, 12, 12) channel("ChkBox_Filter_Reson_LFO_On") value(0)    shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(310, 170, 80, 12) channel("ChkBox_Filter_Reson_Line")   text("Line")   value(1)   radiogroup(6) shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(310, 190, 80, 12) channel("ChkBox_Filter_Reson_Sine")   text("Sine")   radiogroup(6) shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(310, 210, 80, 12) channel("ChkBox_Filter_Reson_Seg")   text("Seg")    radiogroup(6) shape("circle") $PROPERTY_CHKBOX_OSCA
+  checkbox bounds(310, 230, 80, 12) channel("ChkBox_Filter_Reson_Exp")   text("Exp")    radiogroup(6) shape("circle") $PROPERTY_CHKBOX_OSCA
+  encoder  bounds(350, 150, 90, 90) channel("Enc_Filter_Reson_Amp") identchannel("R_Enc_Filter_Reson_Amp") text("Amp")  value(0.01)   max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder  bounds(410, 150, 90, 90) channel("Enc_Filter_Reson_Freq") identchannel("R_Enc_Filter_Reson_Freq") text("Freq")  value(0.01)   max(4) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+
+  ;-----------------------------------
+  ;- Region: ___6-Filter ADSR
+  image    bounds(500, 130, 190, 130)  colour(216, 191, 216, 255)
+  label    bounds(500, 135, 200, 14) text("F. Audio ADSR") fontcolour(0, 0, 0, 255)
+  checkbox bounds(505, 135, 50, 14) channel("ChkBox_Filter_Env_On")   text("On")  value(0)  shape("circle") $PROPERTY_CHKBOX_OSCA
+  encoder  bounds(480, 160, 85, 80) channel("Enc_Filter_Env_Att") identchannel("R_Enc_Filter_Env_Att") text("Att")  value(0.5)   max(4) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder  bounds(530, 160, 85, 80) channel("Enc_Filter_Env_Dec") identchannel("R_Enc_Filter_Env_Dec") text("Dec")  value(0.5)   max(4) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder  bounds(580, 160, 85, 80) channel("Enc_Filter_Env_Sus") identchannel("R_Enc_Filter_Env_Sus") text("Sus")  value(.9)   max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  encoder  bounds(630, 160, 85, 80) channel("Enc_Filter_Env_Rel") identchannel("R_Enc_Filter_Env_Rel") text("Rel")  value(0.7)   max(4) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+
+}
+
+
+;-----------------------------------
+;- Region: Effect GUI
+;-----------------------------------
+groupbox bounds(140, 0, 700, 280) identchannel("GB_Effects") text("Effects") visible(0) colour(178, 186, 230, 255) fontcolour:0(0, 0, 0, 255) outlinecolour(9, 16, 91, 255)
+  {
+
+  ;-----------------------------------
+  ;- Region: ___1-Reverb
+  image    bounds(5, 20, 160, 100)  colour(216, 191, 216, 255)
+  label bounds(5, 25, 160, 14) text("Reverb") fontcolour(0, 0, 0, 255)
+  checkbox bounds(10, 25, 12, 12) channel("Reverb_On") shape("circle") $PROPERTY_CHKBOX_GENE
+  rslider bounds(0, 40, 70, 75) channel("Reverb_Room") range(0,1,0.8,1,0.01)  text("Room")  valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+  rslider bounds(50, 40, 70, 75) channel("Reverb_Damp") range(0,1,0.8,1,0.01)  text("Damp")  valuetextbox(1)  $PROPERTY_SLIDER_OSCA2
+  rslider bounds(100, 40, 70, 75) channel("Reverb_Mix") range(0,1,0.5,1,0.01) text("Mix")  valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+
+  ;-----------------------------------
+  ;- Region: ___2-Echo
+  image    bounds(170, 20, 120, 100)  colour(216, 191, 216, 255)
+  label bounds(170, 25, 120, 14) text("Echo") fontcolour(0, 0, 0, 255)
+  checkbox bounds(175, 25, 12, 12) channel("Echo_On") shape("circle") $PROPERTY_CHKBOX_GENE
+  rslider bounds(170, 40, 70, 75) channel("Echo_Delay") min(0.5) max(6) value(1.5) text("Delay") increment(0.1) valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+  rslider bounds(220, 40, 70, 75) channel("Echo_Loop") min(0.01) max(6) value(0.1) text("After")  increment(0.01) valuetextbox(1)  $PROPERTY_SLIDER_OSCA2
+
+  ;-----------------------------------
+  ;- Region: ___3-Ring modulation
+  image    bounds(295, 20, 180, 100)  colour(216, 191, 216, 255)
+  label bounds(295, 25, 160, 14) text("Ring Mod") fontcolour(0, 0, 0, 255)
+  checkbox bounds(300, 25, 12, 12) channel("Ring_On")  shape("circle") $PROPERTY_CHKBOX_GENE
+  rslider bounds(290, 40, 70, 75) channel("Ring_Amp") range(0, 2, 2, 1, 0.01) text("Amp") increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+  encoder bounds(340, 40,  100,75)  channel("Ring_Freq") value(385) increment(1) text("Freq")  max(1500) min(0.1) valuetextbox(1) $PROPERTY_SLIDER_OSCA
+  rslider bounds(410, 40, 70, 75) channel("Ring_Offset") range(0, 1, 1, 1, 0.01) text("Offset") increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+
+  ;-----------------------------------
+  ;- Region: ___4-Flanger
+  image    bounds(480, 20, 180, 100)  colour(216, 191, 216, 255)
+  label bounds(485, 25, 180, 14) text("Flanger") fontcolour(0, 0, 0, 255)
+  checkbox bounds(485, 25, 12, 12) channel("Flanger_On")  shape("circle") $PROPERTY_CHKBOX_GENE
+  rslider bounds(480, 40, 70, 75) channel("Flanger_Depth") min(0) max(200) value(20) text("Depth") increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+  rslider bounds(540, 40, 70, 75) channel("Flanger_Freq") min(0.0) max(200) value(20) text("Freq")  increment(0.01) valuetextbox(1)  $PROPERTY_SLIDER_OSCA2
+  rslider bounds(600, 40, 70, 75) channel("Flanger_FeedBack") min(0.0) max(1) value(0.5) text("FeedBck")  increment(0.01) valuetextbox(1)  $PROPERTY_SLIDER_OSCA2
+
+  ;-----------------------------------
+  ;- Region: ___4-Chorus
+  image    bounds(420, 130, 240, 100)  colour(216, 191, 216, 255)
+  label bounds(425, 135, 240, 14) text("Chorus") fontcolour(0, 0, 0, 255)
+  checkbox bounds(425, 135, 12, 12) channel("Chorus_On")  shape("circle") $PROPERTY_CHKBOX_GENE
+  rslider bounds(420, 150, 70, 75) channel("Chorus_Rate") min(0.0) max(1) value(0.2) text("Rate")  increment(0.01) valuetextbox(1)  $PROPERTY_SLIDER_OSCA2
+  rslider bounds(480, 150, 70, 75) channel("Chorus_Depth") min(5) max(50) value(14) text("Depth") increment(0.1) valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+  rslider bounds(540, 150, 70, 75) channel("Chorus_Offset") min(0.0) max(50) value(20) text("Offset")  increment(1) valuetextbox(1)  $PROPERTY_SLIDER_OSCA2
+  rslider bounds(600, 150, 70, 75) channel("Chorus_Mix") min(0.0) max(1) value(0.8) text("Mix")  increment(0.01) valuetextbox(1)  $PROPERTY_SLIDER_OSCA2
+
+
+  ;-----------------------------------
+  ;- Region: ___5-Gain
+  image    bounds(5, 130, 90, 100)  colour(216, 191, 216, 255)
+  rslider bounds(10, 140, 70, 75) channel("MainGain") min(0.0) max(1) value(0.5) text("Main Gain")  increment(0.01) valuetextbox(1)  $PROPERTY_SLIDER_OSCA2
+ 
+  ;-----------------------------------
+  ;- Region: ___6-Host Slave
+  image    bounds(100, 130, 90, 100)  colour(216, 191, 216, 255)
+  label bounds(100, 135, 90, 14) text("Host") fontcolour(0, 0, 0, 255)
+  checkbox bounds(105,150, 60, 12) channel("HostSlave_On") text("Slave") shape("circle") $PROPERTY_CHKBOX_GENE textcolour(0, 0, 0, 255) fontcolour(0, 0, 0, 255)
+  numberbox bounds(110, 163, 70, 30) channel("HostBPMValue")  text("BPM")  textcolour(0, 0, 0, 255) min(0) max(360)
+  numberbox bounds(110, 195, 70, 30) channel("HostMorphValue")  text("Frq Morph")  textcolour(0, 0, 0, 255) min(0) max(360)
+ 
+  ;-----------------------------------
+  ;- Region: ___7-BinAural
+  image    bounds(195, 130, 125, 100)  colour(216, 191, 216, 255)
+  label bounds(200, 135, 135, 14) text("BinAural") fontcolour(0, 0, 0, 255)
+  checkbox bounds(200,135, 12, 12)  channel("ChkBox_Binaural")  shape("circle") $PROPERTY_CHKBOX_GENE textcolour(0, 0, 0, 255) fontcolour(0, 0, 0, 255)
+  encoder bounds(180, 145, 100,75) channel("Enc_Azimut") text("Azimut") valuetextbox(1) min(-90) max(180) increnent(1) value(0) $PROPERTY_SLIDER_OSCA
+  encoder bounds(230, 145,  100,75) channel("Enc_Elev") text("Elevation") valuetextbox(1) min(-40) max(90) increnent(1) value(0) $PROPERTY_SLIDER_OSCA
+
+}
+
 
 </Cabbage>
 <CsoundSynthesizer>
@@ -205,6 +348,11 @@ gi_TableOsc1 init 101
 
 
 
+instr InitData
+  ; SPresetPath init "AKWF_sin_0001.wav"
+  gSstereoL = "./Data/hrtf-44100-left.dat"
+  gSstereoR = "./Data/hrtf-44100-right.dat"
+ endin
 
      
 ;**********************************************
@@ -649,6 +797,417 @@ endif
 
 
 
+ ;**********************************************
+  ;- Region: ___Filters GB
+  ;**********************************************
+  if gkFlag_ActiveGB_FILT ==1 then
+      ; printks "kFlag_ActiveGB_FILT \n", 0.1
+      ;- Region:  __Check if filter is on
+      if changed:k(chnget:k("ChkBox_Filter_On"))==1 then
+          if chnget:k("ChkBox_Filter_On")==1 then
+              gk_Filter_is_On = 1
+          else
+              gk_Filter_is_On = 0
+              chnset k(0),"ChkBox_Filter_PitchFollowOn"
+             chnset k(0), "ChkBox_Filter_CutOff_LFO_On"
+             chnset k(0), "ChkBox_Filter_Reson_LFO_On"
+             chnset k(0), "ChkBox_Filter_Env_On"                    
+          endif
+      endif
+      ;- Region:  __Check selected filter type
+      if changed:k(chnget:k("ChkBox_Filter_Moogl"))==1 || changed:k(chnget:k("ChkBox_Filter_LPF18"))==1  ||changed:k(chnget:k("ChkBox_Filter_BQRez"))==1  \
+          ||  changed:k(chnget:k("ChkBox_Filter_Tone"))==1  || changed:k(chnget:k("ChkBox_Filter_aTone"))==1 then
+           
+          if chnget:k("ChkBox_Filter_Moogl")==1 then
+              gk_Filter_Type=0
+              chnset "active(0)", "R_Enc_Filter_Distor"
+              chnset "active(1)", "R_Enc_Filter_Reson"
+              chnset "active(0)", "R_Combo_Filter_BQRez"
+              chnset "active(1)", "R_Enc_Filter_CutOff"
+          endif
+          if chnget:k("ChkBox_Filter_LPF18")==1 then
+              gk_Filter_Type=1
+              chnset "active(1)", "R_Enc_Filter_Reson"
+              chnset "active(1)", "R_Enc_Filter_Distor"
+              chnset "active(0)", "R_Combo_Filter_BQRez"
+              chnset "active(1)", "R_Enc_Filter_CutOff"
+          endif
+          if chnget:k("ChkBox_Filter_BQRez")==1 then
+              gk_Filter_Type=2
+              chnset "active(1)", "R_Enc_Filter_Reson"
+              chnset "active(0)", "R_Enc_Filter_Distor"
+              chnset "active(1)", "R_Combo_Filter_BQRez"
+              chnset "active(1)", "R_Enc_Filter_CutOff"
+          endif
+          if chnget:k("ChkBox_Filter_Tone")==1 then
+              gk_Filter_Type=3
+              chnset "active(0)", "R_Enc_Filter_Reson"
+              chnset "active(0)", "R_Enc_Filter_Distor"
+              chnset "active(0)", "R_Combo_Filter_BQRez"
+              chnset "active(1)", "R_Enc_Filter_CutOff"
+          endif
+          if chnget:k("ChkBox_Filter_aTone")==1 then
+              gk_Filter_Type=4
+              chnset "active(0)", "R_Enc_Filter_Reson"
+              chnset "active(0)", "R_Enc_Filter_Distor"
+              chnset "active(0)", "R_Combo_Filter_BQRez"
+              chnset "active(1)", "R_Enc_Filter_CutOff"
+          endif
+      endif
+
+      ;- Region:  __Get values Main Encoders
+      if changed:k(chnget:k("Enc_Filter_Mix"))==1 then
+          gk_Filter_Mix = chnget:k("Enc_Filter_Mix")
+      endif
+
+      if changed:k(chnget:k("Enc_Filter_CutOff"))==1 then
+          gk_Filter_CutOff = chnget:k("Enc_Filter_CutOff")
+      endif
+
+      if changed:k(chnget:k("Enc_Filter_Reson"))==1 then
+          gk_Filter_Reson = chnget:k("Enc_Filter_Reson")
+      endif
+
+      if changed:k(chnget:k("Enc_Filter_Distor"))==1 then
+          gk_Filter_Distor = chnget:k("Enc_Filter_Distor")
+      endif
+	
+      ;- Region:  __Get values BQrez combo
+      if changed:k(chnget:k("Combo_Filter_BQRez"))==1 then
+          kFilterCombo = chnget:k("Combo_Filter_BQRez")
+          reinit REINIT_BQREZ
+          REINIT_BQREZ:
+              gi_BQrez_Type = i(kFilterCombo)-1
+          rireturn
+      endif
+      ;- Region:  __Get values Tone/atone sliders
+      if changed:k(chnget:k("Slider_Filter_Tonelayer"))==1 then
+          kLayer = chnget:k("Slider_Filter_Tonelayer")
+          reinit TONE_LAYER
+          TONE_LAYER:
+              gi_ToneLayer = i(kLayer)
+          rireturn
+      endif
+      if changed:k(chnget:k("Slider_Filter_aTonelayer"))==1 then
+          kLayer = chnget:k("Slider_Filter_aTonelayer")
+          reinit ATONE_LAYER
+          ATONE_LAYER:
+              gi_AToneLayer = i(kLayer)
+          rireturn
+      endif
+
+      ;- Region:  __Get values Filter Pitch Follow
+      if changed:k(chnget:k("ChkBox_Filter_PitchFollowOn"))==1 then
+          if chnget:k("ChkBox_Filter_PitchFollowOn")== 1 then
+              gk_Filter_PitchFollow=1
+          else
+              gk_Filter_PitchFollow=0
+          endif
+      endif
+      if gk_Filter_PitchFollow==1  && changed:k(chnget:k("Enc_Filter_Follow"))==1 then
+          gk_Filter_PitchFollow_Value = chnget:k("Enc_Filter_Follow")
+      endif
+
+      ;- Region:  __Get values LFO Cut Off for filters
+      if changed:k(chnget:k("ChkBox_Filter_CutOff_LFO_On"))==1 then
+          if chnget:k("ChkBox_Filter_CutOff_LFO_On")==1 then
+              gk_Filter_CutOff_LFO_is_On = 1
+          else
+              gk_Filter_CutOff_LFO_is_On = 0
+          endif
+      endif
+	
+      if gk_Filter_CutOff_LFO_is_On ==1 then
+          if changed:k(chnget:k("Enc_Filter_CutOff_Amp"))==1 then
+              gk_Filter_CutOff_Amp = chnget:k("Enc_Filter_CutOff_Amp")
+          endif
+          if changed:k(chnget:k("Enc_Filter_CutOff_Freq"))==1 then
+              gk_Filter_CutOff_Freq = chnget:k("Enc_Filter_CutOff_Freq")
+          endif
+          if changed:k(chnget:k("ChkBox_Filter_CutOff_Line"))==1  || changed:k(chnget:k("ChkBox_Filter_CutOff_Sine"))==1 || \
+              changed:k(chnget:k("ChkBox_Filter_CutOff_Seg"))==1 || changed:k(chnget:k("ChkBox_Filter_CutOff_Exp"))==1 then
+              if chnget:k("ChkBox_Filter_CutOff_Line")==1 then
+                  gk_Filter_CutOff_LFO_Mode = 0
+              endif
+              if chnget:k("ChkBox_Filter_CutOff_Sine")==1 then
+                  gk_Filter_CutOff_LFO_Mode = 1
+              endif
+              if chnget:k("ChkBox_Filter_CutOff_Seg")==1  then
+                  gk_Filter_CutOff_LFO_Mode = 2
+              endif
+              if chnget:k("ChkBox_Filter_CutOff_Exp")==1  then
+                  gk_Filter_CutOff_LFO_Mode = 3
+              endif
+          endif
+      endif
+	
+	
+      ;- Region:  __Get values LFO Resonance
+      if changed:k(chnget:k("ChkBox_Filter_Reson_LFO_On"))==1 then
+          if chnget:k("ChkBox_Filter_Reson_LFO_On")==1 then
+              gk_Filter_Reson_LFO_is_On = 1
+          else
+              gk_Filter_Reson_LFO_is_On = 0
+          endif
+      endif
+      if gk_Filter_Reson_LFO_is_On ==1 then
+          if changed:k(chnget:k("Enc_Filter_Reson_Amp"))==1 then
+              gk_Filter_Reson_Amp = chnget:k("Enc_Filter_Reson_Amp")
+          endif
+          if changed:k(chnget:k("Enc_Filter_Reson_Freq"))==1 then
+              gk_Filter_Reson_Freq = chnget:k("Enc_Filter_Reson_Freq")
+          endif
+          if changed:k(chnget:k("ChkBox_Filter_Reson_Line"))==1  || changed:k(chnget:k("ChkBox_Filter_Reson_Sine"))==1 || \
+              changed:k(chnget:k("ChkBox_Filter_Reson_Seg"))==1 || changed:k(chnget:k("ChkBox_Filter_Reson_Exp"))==1 then
+              if chnget:k("ChkBox_Filter_Reson_Line")==1     then
+                  gk_Filter_Reson_LFO_Mode = 0
+              endif
+              if chnget:k("ChkBox_Filter_Reson_Sine")==1 then
+                  gk_Filter_Reson_LFO_Mode = 1
+              endif
+              if chnget:k("ChkBox_Filter_Reson_Seg")==1  then
+                  gk_Filter_Reson_LFO_Mode = 2
+              endif
+              if chnget:k("ChkBox_Filter_Reson_Exp")==1  then
+                  gk_Filter_Reson_LFO_Mode = 3
+              endif
+          endif
+      endif
+
+	  
+	  
+      ;- Region:  __Get values Filter Audio ADSR
+      if changed:k(chnget:k("ChkBox_Filter_Env_On"))==1 then
+          if chnget:k("ChkBox_Filter_Env_On")==1 then
+              gk_Filter_Env_is_On=1
+          else
+              gk_Filter_Env_is_On=0
+          endif
+      endif
+      if gk_Filter_Env_is_On==1 then
+          if changed:k(chnget:k("Enc_Filter_Env_Att"))==1 then
+              gk_Filter_Env_Att =  chnget:k("Enc_Filter_Env_Att")
+          endif
+          if changed:k(chnget:k("Enc_Filter_Env_Dec"))==1 then
+              gk_Filter_Env_Dec =  chnget:k("Enc_Filter_Env_Dec")
+          endif
+          if changed:k(chnget:k("Enc_Filter_Env_Sus"))==1 then
+              gk_Filter_Env_Sus =  chnget:k("Enc_Filter_Env_Sus")
+          endif
+          if changed:k(chnget:k("Enc_Filter_Env_Rel"))==1 then
+              gk_Filter_Env_Rel =  chnget:k("Enc_Filter_Env_Rel")
+          endif
+      endif
+	
+  endif
+
+
+  ;**********************************************
+  ;- Region: ___Effects GB
+  ;**********************************************
+  if gkFlag_ActiveGB_EFFECT==1 then
+ 
+      ;- Region: Effect management
+      ;- Region: ____1-Reverb
+
+      if (chnget:k("Reverb_On"))==1 then    ; if the checkbox is on 
+        gk_Reverb_On =1                     ; set the global flag to the audio instrument
+        kReverb_active active "Reverb",0,1  ; check if instrument reverb is active
+        if kReverb_active==0 then           ; if the reverb instr is not 
+          event "i","Reverb",0,-3600        ;  turn it on 
+        endif
+        if changed:k(chnget:k("Reverb_Room"))==1 then   ; check for changed values
+          gk_Reverb_Room=chnget:k("Reverb_Room")
+        endif
+        if changed:k(chnget:k("Reverb_Damp"))==1 then
+          gk_Reverb_Damp =chnget:k("Reverb_Damp")
+        endif
+        if changed:k(chnget:k("Reverb_Mix"))==1 then
+          gk_Reverb_Mix =chnget:k("Reverb_Mix")
+        endif
+      else                                  ; checkbox is off
+        gk_Reverb_On =0                     ; set the global flag to the audio instrument
+        kReverb_active active "Reverb",0,1  ; check if instrument reverb is active
+        if kReverb_active >0 then           ; if the reverb instr has more than 0 instance 
+          chnclear "Reverb_SendL"           ; clear channels
+          chnclear "Reverb_SendR"
+          turnoff2 "Reverb",0,0              ;  turn instr rever off
+        endif
+      endif
+
+      ;- Region: ____2-Echo
+      if chnget:k("Echo_On")==1 then                         ; if the checkbox is on 
+        gk_Echo_On =1                                         ; set the global flag to the audio instrument
+        kEcho_active active "Echo",0,1                        ; check if instrument reverb is active
+        if kEcho_active ==0 then                              ; if the echo instr is not 
+          event "i","Echo",0,-3600                            ;  turn it on 
+        endif
+        if changed:k(chnget:k("Echo_Delay"))==1 then          ; check for changed values
+          gk_Echo_rvt = chnget:k("Echo_Delay")
+        endif
+        if changed:k(chnget:k("Echo_Loop"))==1 then
+          gk_Echo_loop = chnget:k("Echo_Loop")
+        endif
+      else
+        gk_Echo_On =0
+        kEcho_active active "Echo",0,1                        ; check if instrument reverb is active
+        if kEcho_active>0 then 
+          chnclear "Echo_SendL"
+          chnclear "Echo_SendR"
+          turnoff2 "Echo",0,0              ;  turn instr rever off
+        endif
+
+      endif
+
+      ;- Region: ____3-Ring Modulation
+      if changed:k(chnget:k("Ring_On"))==1 then
+          if chnget:k("Ring_On")==1 then
+              gk_Ring_On=1
+          else
+              gk_Ring_On=0
+          endif
+      endif
+      if changed:k(chnget:k("Ring_Amp"))==1 then
+          gk_Ring_Amp=chnget:k("Ring_Amp")
+      endif
+      if changed:k(chnget:k("Ring_Freq"))==1 then
+          gk_Ring_Freq= chnget:k("Ring_Freq")
+      endif
+      if changed:k(chnget:k("Ring_Offset"))==1 then
+          gk_Ring_Offset=chnget:k("Ring_Offset")
+      endif
+      
+      ;- Region: ____4-Flanger
+      if changed:k(chnget:k("Flanger_On"))==1 then
+          if chnget:k("Flanger_On")==1 then
+              gk_Flanger_On=1
+          else
+              gk_Flanger_On=0
+          endif
+      endif
+      if changed:k(chnget:k("Flanger_Depth"))==1 then
+          gk_Flanger_Depth= chnget:k("Flanger_Depth")
+      endif
+      if changed:k(chnget:k("Flanger_Freq"))==1 then
+          gk_Flanger_Freq = chnget:k("Flanger_Freq")
+      endif
+      if changed:k(chnget:k("Flanger_FeedBack"))==1 then
+          gk_Flanger_FeedBack = chnget:k("Flanger_FeedBack")
+      endif
+
+      ;- Region: ____5-Chorus
+      if changed:k(chnget:k("Chorus_On"))==1 then
+          if chnget:k("Chorus_On")==1 then
+              gk_Chorus_On=1
+          else
+              gk_Chorus_On=0
+          endif
+      endif
+      if gk_Chorus_On==1 then
+          if changed:k(chnget:k("Chorus_Depth"))==1 then
+              gk_Chorus_Depth= chnget:k("Chorus_Depth")
+             ; gk_Chorus_Min = gk_Chorus_Min/1000
+          endif
+          if changed:k(chnget:k("Chorus_Rate"))==1 then
+              gk_Chorus_Rate= chnget:k("Chorus_Rate")
+          endif
+          if changed:k(chnget:k("Chorus_Offset"))==1 then
+              gk_Chorus_Offset = chnget:k("Chorus_Offset")
+            ;  gk_Chorus_Max= gk_Chorus_Max/1000
+          endif
+          if changed:k(chnget:k("Chorus_Mix"))==1 then
+              gk_Chorus_Mix = chnget:k("Chorus_Mix")
+          endif
+      endif
+  
+      ;- Region: ____6-Main Gain
+      if changed:k(chnget:k("MainGain"))==1 then
+          gk_MainGain = chnget:k("MainGain")
+      endif
+ 
+      ;- Region: ____7-Host Enslave
+      if chnget:k("HostSlave_On")==1 then
+          if chnget:k("IS_A_PLUGIN")==1 then
+              gk_TempoFactor= chnget:k("HOST_BPM")
+              chnset gk_TempoFactor,"HostBPMValue"
+              chnset gk_Freq_Morph,"HostMorphValue"
+          else
+              gk_TempoFactor = 1
+              chnset gk_TempoFactor,"HostBPMValue"
+              chnset gk_Freq_Morph,"HostMorphValue"
+          endif
+      else
+          gkTempoFactor = 1
+          chnset gk_TempoFactor,"HostBPMValue"
+          chnset gk_Freq_Morph,"HostMorphValue"
+      endif
+      
+      ;- Region: ____8-BinAural
+      if changed:k(chnget:k("ChkBox_Binaural"))==1 then
+          gk_Stereo chnget ("ChkBox_Binaural")
+          printks "gkstero : %d \n",0,gk_Stereo
+      endif
+      if changed:k(chnget:k("Enc_Azimut"))==1 then
+          kToto = chnget:k("Enc_Azimut")
+          gk_az =kToto
+          reinit AZIMUT
+      endif
+
+      if changed:k(chnget:k("Enc_Elev"))==1 then
+          kToto1 = chnget:k("Enc_Elev")
+          gk_el = kToto1
+          reinit ELEVATION
+      endif
+  endif
+
+
+
+  ;VERY IMPORTANT
+  ; This is necessary to bring back the loop to reading only one GB after a preset has been loaded and all variables have been updated.
+  if 	gkPreset_FLag==1 then
+      gkPreset_FLag=0
+      gkFlag_ActiveGB_FILT=0
+      gkFlag_ActiveGB_ENV=0
+      gkFlag_ActiveGB_EFFECT=0
+      gkFlag_ActiveGB_OSC=1
+      chnset k(1), "But_Call_MainOsc" 
+      chnset "visible(0)","GB_ADSR"
+      chnset "visible(0)","GB_Effects"
+      chnset "visible(1)","GB_MainOSc"
+      chnset "visible(0)","GB_Filters"
+  endif
+
+
+  AZIMUT:
+      gi_Az = i(kToto)
+  rireturn
+
+  ELEVATION:
+      gi_Elev = i(kToto1)
+  rireturn
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 OSC1_TABLE:
     gi_TableOsc1 = 100 + i(gk_Type_Osc1)
 rireturn
@@ -673,6 +1232,44 @@ rireturn
 endin
 
 
+instr Echo
+  aInL chnget "Echo_SendL"
+  aInR chnget "Echo_SendR"
+  if  gk_Echo_On==1 then
+      aOutL vcomb aInL, gk_Echo_rvt, gk_Echo_loop, 6
+      aOutR vcomb aInR, gk_Echo_rvt, gk_Echo_loop, 6
+  
+      if gk_Reverb_On==1 then
+          chnmix aOutL*gk_Reverb_Mix,"Reverb_SendL"
+          chnmix aOutR*gk_Reverb_Mix,"Reverb_SendR"
+      endif
+  endif
+  outs aOutL,aOutR
+  
+  /*  chnmix aOutL,"LeftSignal"
+    chnmix aOutR,"RightSignal"*/
+  
+  chnclear "Echo_SendL"
+  chnclear "Echo_SendR"
+endin
+ 
+ 
+
+instr  Reverb    ; Reverb
+  aInL chnget "Reverb_SendL"
+  aInR chnget "Reverb_SendR"
+  ; create reverberated version of input signal (note stereo input and output)
+  aRvbL,aRvbR  freeverb aInL,  aInR, gk_Reverb_Room, gk_Reverb_Damp
+  
+  outs      aRvbL, aRvbR ; send audio to outputs
+  /*   chnmix aRvbL,"LeftSignal"
+    chnmix aRvbR,"RightSignal"*/
+  
+  chnclear  "Reverb_SendL"
+  chnclear  "Reverb_SendR"
+endin
+
+ 
 
 
 ;instrument will be triggered by keyboard widget
@@ -752,7 +1349,9 @@ instr 801
        
        aOut1 poscil 1,kPitchInit+aFM2*kEnv2+aFM3*kEnv3,gi_TableOsc1 
    endif
-  
+   
+   
+  aOut =aOut1
  
 
   /* Calculate audio with oscil A and B*/ 
@@ -761,9 +1360,103 @@ instr 801
   
   
 
-  outs aOut1*kEnv1*kamp, aOut1*kEnv1*kamp
+;  outs aOut1*kEnv1*kamp, aOut1*kEnv1*kamp
   
+    ;------------------------------------
+  ;- Region: _Apply Ring Modulation
+  if gk_Ring_On == 1 then
+    aRing poscil gk_Ring_Amp, cent(gk_Ring_Freq) * kPitchInit, giSine
+    aOut =aOut*(aRing + gk_Ring_Offset)
+  endif
+
+
+  ;---------------------------------------
+  ;- Region: _Filter and apply envelopes
+  if gk_Filter_is_On==1 then
+      if gk_Filter_Type ==0 then
+          aFilt My_Moogladder aOut, gk_Filter_CutOff, gk_Filter_Reson, gk_Filter_PitchFollow,gk_Filter_PitchFollow_Value, kPitchInit , \
+          gk_Filter_CutOff_LFO_is_On , gk_Filter_CutOff_LFO_Mode ,gk_Filter_CutOff_Amp, gk_Filter_CutOff_Freq ,\
+          gk_Filter_Reson_LFO_is_On , gk_Filter_Reson_LFO_Mode ,gk_Filter_Reson_Amp, gk_Filter_Reson_Freq
+      endif
+      if gk_Filter_Type ==1 then
+          aFilt My_LPF18 aOut, gk_Filter_CutOff, gk_Filter_Reson, gk_Filter_PitchFollow,gk_Filter_PitchFollow_Value, kPitchInit , \
+          gk_Filter_CutOff_LFO_is_On , gk_Filter_CutOff_LFO_Mode ,gk_Filter_CutOff_Amp, gk_Filter_CutOff_Freq ,\
+          gk_Filter_Reson_LFO_is_On , gk_Filter_Reson_LFO_Mode ,gk_Filter_Reson_Amp, gk_Filter_Reson_Freq, gk_Filter_Distor
+      endif
+      if gk_Filter_Type ==2 then
+          aFilt My_BQRez aOut, gk_Filter_CutOff, gk_Filter_Reson, gk_Filter_PitchFollow,gk_Filter_PitchFollow_Value, kPitchInit , \
+          gk_Filter_CutOff_LFO_is_On , gk_Filter_CutOff_LFO_Mode ,gk_Filter_CutOff_Amp, gk_Filter_CutOff_Freq ,\
+          gk_Filter_Reson_LFO_is_On , gk_Filter_Reson_LFO_Mode ,gk_Filter_Reson_Amp, gk_Filter_Reson_Freq ,gi_BQrez_Type
+      endif
+      if gk_Filter_Type ==3 then
+          aFilt My_Tonex aOut, gk_Filter_CutOff, gk_Filter_PitchFollow,gk_Filter_PitchFollow_Value, kPitchInit , \
+          gk_Filter_CutOff_LFO_is_On , gk_Filter_CutOff_LFO_Mode ,gk_Filter_CutOff_Amp, gk_Filter_CutOff_Freq ,gi_ToneLayer
+      endif
+      if gk_Filter_Type ==4 then
+          aFilt My_aTonex aOut, gk_Filter_CutOff, gk_Filter_PitchFollow,gk_Filter_PitchFollow_Value, kPitchInit , \
+          gk_Filter_CutOff_LFO_is_On , gk_Filter_CutOff_LFO_Mode ,gk_Filter_CutOff_Amp, gk_Filter_CutOff_Freq ,gi_AToneLayer
+      endif
+      ; If filtered signal has its own envelope, apply it
+      if gk_Filter_Env_is_On ==1 then
+          kFiltADSR madsr i(gk_Filter_Env_Att),i(gk_Filter_Env_Dec),i(gk_Filter_Env_Sus),i(gk_Filter_Env_Rel)
+          aOut = (1-gk_Filter_Mix)*aOut*kEnv1 +  aFilt * gk_Filter_Mix*kFiltADSR
+      else
+          ;if not, then apply the Volume envelope
+          aOut = ((1-gk_Filter_Mix)*aOut + aFilt * gk_Filter_Mix)*kEnv1
+      endif
+  else
+      aOut = aOut *kEnv1
+  endif
+
+
+  ;-----------------------------------------
+  ;- Region: _Apply Main Gain
+  aOut =gk_MainGain *aOut *kamp
+ 
+  ;-----------------------------------------
+  ;- Region: _Apply Flanger
+  if gk_Flanger_On==1 then
+      aOut Flanger  aOut, gk_Flanger_Depth,gk_Flanger_Freq,gk_Flanger_FeedBack
+  endif
+
+
+  ;-----------------------------------------
+  ;- Region: _Apply Chorus
+  if gk_Chorus_On==1 then
+    aOut MyChorus  aOut,  gk_Chorus_On,  gk_Chorus_Mix, gk_Chorus_Depth, gk_Chorus_Rate,gk_Chorus_Offset      ;k(0.8),k(14),k(0.2),20 ;0.8,14,0.2,20
+  endif
+
+ 
+
+  ;-----------------------------------------
+  ;- Region: _Apply Binaural
+  if gk_Stereo == 1 then
+      aleft,aright hrtfstat aOut, gi_Az, gi_Elev, gSstereoL,gSstereoR  
+      aleft = aleft*2
+      aright = aright*2
+  else
+      aleft = aOut
+      aright= aOut
+  endif
   
+   
+  ;-----------------------------------------
+  ;- Region: _Out Audio
+  outs     aleft, aright
+  
+  ;-----------------------------------------
+  ;- Region: _Apply Echo
+  if gk_Echo_On==1 then
+      chnmix aleft,"Echo_SendL"
+      chnmix aright,"Echo_SendR"
+  endif
+
+  ;-----------------------------------------
+  ;- Region:  Apply Reverb
+  if gk_Reverb_On ==1 then
+      chnmix aleft*gk_Reverb_Mix,"Reverb_SendL"
+      chnmix aright*gk_Reverb_Mix,"Reverb_SendR"
+  endif
   
 
 
@@ -803,6 +1496,7 @@ endin
 <CsScore>
 ;causes Csound to run for about 7000 years...
 f0 z
+i "InitData" 0 0.2
 i "ManageGUI" 0 z
 i "ManageGB" 0 z
 
