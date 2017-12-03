@@ -563,6 +563,22 @@ endif
   ;- Region: ___Enveloppe GB
   ;**********************************************
   if gkFlag_ActiveGB_ENV==1 then
+      if changed:k(chnget:k("ChkBox_ADSR_Osc2"))==1 then
+         gk_ADSR_Osc2_On = chnget:k("ChkBox_ADSR_Osc2")
+      endif
+      if changed:k(chnget:k("ChkBox_ADSR_Osc3"))==1 then
+         gk_ADSR_Osc3_On = chnget:k("ChkBox_ADSR_Osc3")
+      endif
+      if changed:k(chnget:k("ChkBox_ADSR_Osc4"))==1 then
+         gk_ADSR_Osc4_On = chnget:k("ChkBox_ADSR_Osc4")
+      endif
+      if changed:k(chnget:k("ChkBox_ADSR_Osc5"))==1 then
+         gk_ADSR_Osc5_On = chnget:k("ChkBox_ADSR_Osc5")
+      endif
+      
+      
+      
+      
       if  changed:k(chnget:k("Enc_ADSR_Attack_Osc1"))==1 then
           gk_ADSR_Attack_Osc1 = chnget:k("Enc_ADSR_Attack_Osc1")
       endif
@@ -684,34 +700,57 @@ instr 801
  ; kVolume_Envelope Envelop gk_Envelope_Mode, gk_ADSR_Attack,gk_ADSR_Decay, gk_ADSR_Sustain, gk_ADSR_Release
 
   /* Calculate FM modulator: call UDO */ 
-   kEnv1 madsr .5, .2, .7, .2
+   kEnv1  madsr i(gk_ADSR_Attack_Osc1),i( gk_ADSR_Decay_Osc1),i( gk_ADSR_Sustain_Osc1),i( gk_ADSR_Release_Osc1)
+   if gk_ADSR_Osc2_On==1 then 
+        kEnv2 madsr i(gk_ADSR_Attack_Osc2),i( gk_ADSR_Decay_Osc2),i( gk_ADSR_Sustain_Osc2),i( gk_ADSR_Release_Osc2)
+   else
+        kEnv2 =1
+   endif
+   
+   if gk_ADSR_Osc3_On==1 then 
+        kEnv3 madsr i(gk_ADSR_Attack_Osc3),i( gk_ADSR_Decay_Osc3),i( gk_ADSR_Sustain_Osc3),i( gk_ADSR_Release_Osc3)
+   else
+        kEnv3 =1
+   endif 
+   
+   if gk_ADSR_Osc4_On==1 then 
+        kEnv4 madsr i(gk_ADSR_Attack_Osc4),i( gk_ADSR_Decay_Osc4),i( gk_ADSR_Sustain_Osc4),i( gk_ADSR_Release_Osc4)
+   else
+        kEnv4 =1
+   endif 
+   
+    if gk_ADSR_Osc5_On==1 then 
+        kEnv5 madsr i(gk_ADSR_Attack_Osc5),i( gk_ADSR_Decay_Osc5),i( gk_ADSR_Sustain_Osc5),i( gk_ADSR_Release_Osc5)
+   else
+        kEnv5 =1
+   endif 
   
   if gk_Connect_Osc_Mode == 1 then   
         aFM2 FM kPitchInit, gk_FM_Freq_Mod_Osc2 , gk_FM_Amp_Mod_Osc2, gi_TableOsc2
         aFM3 FM kPitchInit, gk_FM_Freq_Mod_Osc3 , gk_FM_Amp_Mod_Osc3, gi_TableOsc3
         aFM4 FM kPitchInit, gk_FM_Freq_Mod_Osc4 , gk_FM_Amp_Mod_Osc4, gi_TableOsc4
         aFM5 FM kPitchInit, gk_FM_Freq_Mod_Osc5 , gk_FM_Amp_Mod_Osc5, gi_TableOsc5
-        aOut1 poscil 1,kPitchInit+aFM2*kEnv1 +aFM3 +aFM4 +aFM5,gi_TableOsc1
+        aOut1 poscil 1,kPitchInit+aFM2*kEnv2 +aFM3*kEnv3 +aFM4*kEnv4 +aFM5*kEnv5,gi_TableOsc1
   elseif gk_Connect_Osc_Mode == 2 then 
         aFM3 FM kPitchInit, gk_FM_Freq_Mod_Osc3 , gk_FM_Amp_Mod_Osc3, gi_TableOsc3
         aFM5 FM kPitchInit, gk_FM_Freq_Mod_Osc5 , gk_FM_Amp_Mod_Osc5, gi_TableOsc5
-        aFM2 Audio_FM kPitchInit+aFM3, gk_FM_Freq_Mod_Osc2 , gk_FM_Amp_Mod_Osc2, gi_TableOsc2
-        aFM4 Audio_FM kPitchInit+aFM5, gk_FM_Freq_Mod_Osc4 , gk_FM_Amp_Mod_Osc4, gi_TableOsc4
-        aOut1 poscil 1,kPitchInit+aFM2+aFM4,gi_TableOsc1
+        aFM2 Audio_FM kPitchInit+aFM3*kEnv3, gk_FM_Freq_Mod_Osc2 , gk_FM_Amp_Mod_Osc2, gi_TableOsc2
+        aFM4 Audio_FM kPitchInit+aFM5*kEnv5, gk_FM_Freq_Mod_Osc4 , gk_FM_Amp_Mod_Osc4, gi_TableOsc4
+        aOut1 poscil 1,kPitchInit+aFM2*kEnv2+aFM4*kEnv4,gi_TableOsc1
   elseif gk_Connect_Osc_Mode == 3 then     
        aFM5 FM kPitchInit, gk_FM_Freq_Mod_Osc5 , gk_FM_Amp_Mod_Osc5, gi_TableOsc5
-       aFM4 Audio_FM kPitchInit+aFM5, gk_FM_Freq_Mod_Osc4 , gk_FM_Amp_Mod_Osc4, gi_TableOsc4 
-       aFM3 Audio_FM kPitchInit+aFM4, gk_FM_Freq_Mod_Osc3 , gk_FM_Amp_Mod_Osc3, gi_TableOsc3
-       aFM2 Audio_FM kPitchInit+aFM3, gk_FM_Freq_Mod_Osc2 , gk_FM_Amp_Mod_Osc2, gi_TableOsc2
-       aOut1 poscil 1,kPitchInit+aFM2,gi_TableOsc1  
+       aFM4 Audio_FM kPitchInit+aFM5*kEnv5, gk_FM_Freq_Mod_Osc4 , gk_FM_Amp_Mod_Osc4, gi_TableOsc4 
+       aFM3 Audio_FM kPitchInit+aFM4*kEnv4, gk_FM_Freq_Mod_Osc3 , gk_FM_Amp_Mod_Osc3, gi_TableOsc3
+       aFM2 Audio_FM kPitchInit+aFM3*kEnv3, gk_FM_Freq_Mod_Osc2 , gk_FM_Amp_Mod_Osc2, gi_TableOsc2
+       aOut1 poscil 1,kPitchInit+aFM2*kEnv2,gi_TableOsc1  
     elseif gk_Connect_Osc_Mode == 4 then 
        aFM5 FM kPitchInit, gk_FM_Freq_Mod_Osc5 , gk_FM_Amp_Mod_Osc5, gi_TableOsc5
-       aFM4 Audio_FM kPitchInit+aFM5, gk_FM_Freq_Mod_Osc4 , gk_FM_Amp_Mod_Osc4, gi_TableOsc4 
-       aFM3 Audio_FM kPitchInit+aFM4, gk_FM_Freq_Mod_Osc3 , gk_FM_Amp_Mod_Osc3, gi_TableOsc3
+       aFM4 Audio_FM kPitchInit+aFM5*kEnv5, gk_FM_Freq_Mod_Osc4 , gk_FM_Amp_Mod_Osc4, gi_TableOsc4 
+       aFM3 Audio_FM kPitchInit+aFM4*kEnv4, gk_FM_Freq_Mod_Osc3 , gk_FM_Amp_Mod_Osc3, gi_TableOsc3
        
        aFM2 FM kPitchInit, gk_FM_Freq_Mod_Osc2 , gk_FM_Amp_Mod_Osc2, gi_TableOsc2  
        
-       aOut1 poscil 1,kPitchInit+aFM2+aFM3,gi_TableOsc1 
+       aOut1 poscil 1,kPitchInit+aFM2*kEnv2+aFM3*kEnv3,gi_TableOsc1 
    endif
   
  
@@ -721,8 +760,8 @@ instr 801
   
   
   
-  kEnv madsr .1, .2, .6, .8
-  outs aOut1*kEnv*kamp, aOut1*kEnv*kamp
+
+  outs aOut1*kEnv1*kamp, aOut1*kEnv1*kamp
   
   
   
