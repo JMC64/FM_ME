@@ -94,29 +94,21 @@ checkbox bounds(148, 255, 15, 15) channel("ChkBox_Connect_Osc_3")     radiogroup
 image bounds(175,157,50,90) file("./images/Mode4.png")
 checkbox bounds(190, 255, 15, 15) channel("ChkBox_Connect_Osc_4")     radiogroup(6) shape("circle") $PROPERTY_CHKBOX_OSCA
 
-
-
 label bounds(310, 30, 70, 14) text("Osc2") fontcolour:0(0, 0, 0, 255) 
 encoder bounds(265, 40, 90, 90) channel("Enc_FM_Freq_Mod_Osc2") value(0)  text("Freq Mod") max(5) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA 
 encoder bounds(345, 40, 90,90) channel("Enc_FM_Amp_Mod_Osc2") value(1) text("Mod factor")   max(25) min(0.1) increment(0.1) valuetextbox(1) $PROPERTY_SLIDER_OSCA 
-
-
 
 label bounds(530, 30, 70, 14) text("Osc3") fontcolour:0(0, 0, 0, 255) 
 encoder bounds(480,40, 90,90) channel("Enc_FM_Freq_Mod_Osc3") value(0)  text("Freq Mod") max(5) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq Mod")
 encoder bounds(565, 40, 90,90) channel("Enc_FM_Amp_Mod_Osc3") value(1) text("Mod factor")  max(25) min(0.1) increment(0.1) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Mod factor")
 
-
 label bounds(310, 170, 70, 14) text("Osc4") fontcolour:0(0, 0, 0, 255) 
 encoder bounds(265, 180, 90, 90) channel("Enc_FM_Freq_Mod_Osc4") value(0)  text("Freq Mod") max(5) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA 
 encoder bounds(345, 180, 90,90) channel("Enc_FM_Amp_Mod_Osc4") value(1) text("Mod factor")   max(25) min(0.1) increment(0.1) valuetextbox(1) $PROPERTY_SLIDER_OSCA 
 
-
-
 label bounds(530, 170, 70, 14) text("Osc5") fontcolour:0(0, 0, 0, 255) 
 encoder bounds(480,180, 90,90) channel("Enc_FM_Freq_Mod_Osc5") value(0)  text("Freq Mod") max(5) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq Mod")
 encoder bounds(565, 180, 90,90) channel("Enc_FM_Amp_Mod_Osc5") value(1) text("Mod factor")  max(25) min(0.1) increment(0.1) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Mod factor")
-
 
 }
 
@@ -182,8 +174,6 @@ image bounds(10,88,27,20) file("./images/square.png")
 image bounds(10,111,27,20) file("./images/pulse.png")
 image bounds(10,134,27,20) file("./images/triangle.png")
 
-
-
 ;- Region: __Oscillator 1 widgets
 label bounds(20, 25, 70, 12) text("Osc1") fontcolour:0(0, 0, 0, 255) 
 checkbox bounds(55, 45, 10, 10) channel("ChkBox_LFO_Osc1_Sine")    value(1)  radiogroup(7) shape("circle") $PROPERTY_CHKBOX_OSCA ;text("Sine")
@@ -232,10 +222,8 @@ encoder bounds(18, 220, 85,50) channel("Enc_LFO_Freq_Osc1") value(1)   max(25) m
 encoder bounds(72, 160, 85, 50) channel("Enc_LFO_Amp_Osc2") value(0) max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ; text("Amp") 
 encoder bounds(72, 220, 85,50) channel("Enc_LFO_Freq_Osc2") value(1)   max(25) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq") 
 
-
 encoder bounds(128, 160, 85, 50) channel("Enc_LFO_Amp_Osc3") value(0) max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ; text("Amp") 
 encoder bounds(128, 220, 85,50) channel("Enc_LFO_Freq_Osc3") value(1)   max(25) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq") 
-
 
 encoder bounds(184, 160, 85, 50) channel("Enc_LFO_Amp_Osc4") value(0) max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ; text("Amp") 
 encoder bounds(184, 220, 85,50) channel("Enc_LFO_Freq_Osc4") value(1)   max(25) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq") 
@@ -423,6 +411,30 @@ gi_TableOsc1 init 101
 #include "./UDO/Flanger.udo"
 #include "./UDO/Chorus.udo"
 #include "./UDO/FM.udo"
+
+opcode MYLFO, k,kkk
+k_Amp, k_Freq,k_Wavshape xin
+
+ if k_Amp >=0 then 
+    if k_Wavshape == 1 then 
+        kLFO poscil k_Amp,k_Freq, giSine
+    elseif k_Wavshape == 2 then 
+        kLFO poscil k_Amp,k_Freq, giSaw
+    elseif k_Wavshape == 3 then 
+        kLFO poscil k_Amp,k_Freq, giSquare
+    elseif k_Wavshape == 4 then 
+        kLFO poscil k_Amp,k_Freq, giPulse
+    elseif k_Wavshape == 5 then 
+        kLFO poscil k_Amp,k_Freq, giTriangle
+    endif
+        kLFO = (kLFO+1)*0.5
+    else 
+     kLFO =1
+ endif
+ 
+xout kLFO
+endop
+
 
 
 
@@ -905,19 +917,19 @@ endif
          ||changed:k(chnget:k("ChkBox_LFO_Osc1_Pulse"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc1_Triangle"))==1 then 
             if chnget:k("ChkBox_LFO_Osc1_Sine")==1 then 
                 gk_LFO_Osc1_Mode = 1
-                reinit OSC1_LFO_TABLE
+ 
             elseif chnget:k("ChkBox_LFO_Osc1_Saw")==1 then 
                  gk_LFO_Osc1_Mode = 2
-                 reinit OSC1_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc1_Square")==1 then 
                  gk_LFO_Osc1_Mode = 3
-                 reinit OSC1_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc1_Pulse")==1 then 
                  gk_LFO_Osc1_Mode = 4
-                 reinit OSC1_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc1_Triangle")==1 then 
                  gk_LFO_Osc1_Mode = 5
-                 reinit OSC1_LFO_TABLE
+
             endif
         endif
         
@@ -926,19 +938,19 @@ endif
          ||changed:k(chnget:k("ChkBox_LFO_Osc2_Pulse"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc2_Triangle"))==1 then 
             if chnget:k("ChkBox_LFO_Osc2_Sine")==1 then 
                 gk_LFO_Osc2_Mode = 1
-                reinit OSC2_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc2_Saw")==1 then 
                  gk_LFO_Osc2_Mode = 2
-                 reinit OSC2_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc2_Square")==1 then 
                  gk_LFO_Osc2_Mode = 3
-                 reinit OSC2_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc2_Pulse")==1 then 
                  gk_LFO_Osc2_Mode = 4
-                 reinit OSC2_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc2_Triangle")==1 then 
                  gk_LFO_Osc2_Mode = 5
-                 reinit OSC2_LFO_TABLE
+
             endif
         endif
         
@@ -947,19 +959,19 @@ endif
          ||changed:k(chnget:k("ChkBox_LFO_Osc3_Pulse"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc3_Triangle"))==1 then 
             if chnget:k("ChkBox_LFO_Osc3_Sine")==1 then 
                 gk_LFO_Osc3_Mode = 1
-                reinit OSC3_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc3_Saw")==1 then 
                  gk_LFO_Osc3_Mode = 2
-                 reinit OSC3_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc3_Square")==1 then 
                  gk_LFO_Osc3_Mode = 3
-                 reinit OSC3_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc3_Pulse")==1 then 
                  gk_LFO_Osc3_Mode = 4
-                 reinit OSC3_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc3_Triangle")==1 then 
                  gk_LFO_Osc3_Mode = 5
-                 reinit OSC3_LFO_TABLE
+
             endif
         endif
         
@@ -968,19 +980,19 @@ endif
          ||changed:k(chnget:k("ChkBox_LFO_Osc4_Pulse"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc4_Triangle"))==1 then 
             if chnget:k("ChkBox_LFO_Osc4_Sine")==1 then 
                 gk_LFO_Osc4_Mode = 1
-                reinit OSC4_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc4_Saw")==1 then 
                  gk_LFO_Osc4_Mode = 2
-                 reinit OSC4_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc4_Square")==1 then 
                  gk_LFO_Osc4_Mode = 3
-                 reinit OSC4_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc4_Pulse")==1 then 
                  gk_LFO_Osc4_Mode = 4
-                 reinit OSC4_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc4_Triangle")==1 then 
                  gk_LFO_Osc4_Mode = 5
-                 reinit OSC4_LFO_TABLE
+
             endif
         endif    
         
@@ -989,26 +1001,54 @@ endif
          ||changed:k(chnget:k("ChkBox_LFO_Osc5_Pulse"))==1 ||changed:k(chnget:k("ChkBox_LFO_Osc5_Triangle"))==1 then 
             if chnget:k("ChkBox_LFO_Osc5_Sine")==1 then 
                 gk_LFO_Osc5_Mode = 1
-                reinit OSC5_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc5_Saw")==1 then 
                  gk_LFO_Osc5_Mode = 2
-                 reinit OSC5_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc5_Square")==1 then 
                  gk_LFO_Osc5_Mode = 3
-                 reinit OSC5_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc5_Pulse")==1 then 
                  gk_LFO_Osc5_Mode = 4
-                 reinit OSC5_LFO_TABLE
+
             elseif chnget:k("ChkBox_LFO_Osc5_Triangle")==1 then 
                  gk_LFO_Osc5_Mode = 5
-                 reinit OSC5_LFO_TABLE
+
             endif
         endif
     ; ADD management of the encoder for LFO    
         
-        
-        
-        
+    if changed:k(chnget:k("Enc_LFO_Amp_Osc1"))==1 then 
+        gk_LFO_Amp_Osc1 =chnget:k("Enc_LFO_Amp_Osc1")
+    endif
+    if changed:k(chnget:k("Enc_LFO_Freq_Osc1"))==1 then 
+         gk_LFO_Freq_Osc1 =chnget:k("Enc_LFO_Freq_Osc1")
+    endif    
+    if changed:k(chnget:k("Enc_LFO_Amp_Osc2"))==1 then 
+        gk_LFO_Amp_Osc2 =chnget:k("Enc_LFO_Amp_Osc2")
+    endif
+    if changed:k(chnget:k("Enc_LFO_Freq_Osc2"))==1 then 
+         gk_LFO_Freq_Osc2 =chnget:k("Enc_LFO_Freq_Osc2")
+    endif    
+     if changed:k(chnget:k("Enc_LFO_Amp_Osc3"))==1 then 
+        gk_LFO_Amp_Osc3 =chnget:k("Enc_LFO_Amp_Osc3")
+    endif
+    if changed:k(chnget:k("Enc_LFO_Freq_Osc3"))==1 then 
+         gk_LFO_Freq_Osc3 =chnget:k("Enc_LFO_Freq_Osc3")
+    endif    
+     if changed:k(chnget:k("Enc_LFO_Amp_Osc4"))==1 then 
+        gk_LFO_Amp_Osc4 =chnget:k("Enc_LFO_Amp_Osc4")
+    endif
+    if changed:k(chnget:k("Enc_LFO_Freq_Osc4"))==1 then 
+         gk_LFO_Freq_Osc4 =chnget:k("Enc_LFO_Freq_Osc4")
+    endif    
+     if changed:k(chnget:k("Enc_LFO_Amp_Osc5"))==1 then 
+        gk_LFO_Amp_Osc5 =chnget:k("Enc_LFO_Amp_Osc5")
+    endif
+    if changed:k(chnget:k("Enc_LFO_Freq_Osc5"))==1 then 
+         gk_LFO_Freq_Osc5 =chnget:k("Enc_LFO_Freq_Osc5")
+    endif    
+                         
         
         
     endif
@@ -1404,34 +1444,6 @@ endif
 
 
 
-
-
-
-OSC1_LFO_TABLE:
-    gi_LFO_TableOsc1 = 100 + i(gk_LFO_Osc1_Mode)
-rireturn
-
-
-OSC2_LFO_TABLE:
-    gi_LFO_TableOsc2 = 100 + i(gk_LFO_Osc2_Mode)
-rireturn
-
-
-OSC3_LFO_TABLE:
-    gi_LFO_TableOsc3 = 100 + i(gk_LFO_Osc3_Mode)
-rireturn
-
-
-OSC4_LFO_TABLE:
-    gi_LFO_TableOsc4 = 100 + i(gk_LFO_Osc4_Mode)
-rireturn
-
-
-OSC5_LFO_TABLE:
-    gi_LFO_TableOsc5 = 100 + i(gk_LFO_Osc5_Mode)
-rireturn
-
-
 OSC1_TABLE:
     gi_TableOsc1 = 100 + i(gk_Type_Osc1)
 rireturn
@@ -1451,9 +1463,12 @@ Osc5_TABLE:
 rireturn
 
 
-
-
 endin
+
+
+
+
+
 
 
 instr Echo
@@ -1528,24 +1543,33 @@ instr 801
         kEnv2 =1
    endif
    
+   ; apply LFO on modulator
+   k_LFO2 MYLFO gk_LFO_Amp_Osc2,gk_LFO_Freq_Osc2,gk_LFO_Osc2_Mode
+   kEnv2 = kEnv2 * k_LFO2
+   
    if gk_ADSR_Osc3_On==1 then 
         kEnv3 madsr i(gk_ADSR_Attack_Osc3),i( gk_ADSR_Decay_Osc3),i( gk_ADSR_Sustain_Osc3),i( gk_ADSR_Release_Osc3)
    else
         kEnv3 =1
    endif 
+   k_LFO3 MYLFO gk_LFO_Amp_Osc3,gk_LFO_Freq_Osc3,gk_LFO_Osc3_Mode
+   kEnv3 = kEnv3 * k_LFO3
    
    if gk_ADSR_Osc4_On==1 then 
         kEnv4 madsr i(gk_ADSR_Attack_Osc4),i( gk_ADSR_Decay_Osc4),i( gk_ADSR_Sustain_Osc4),i( gk_ADSR_Release_Osc4)
    else
         kEnv4 =1
    endif 
-   
+    k_LFO4 MYLFO gk_LFO_Amp_Osc4,gk_LFO_Freq_Osc4,gk_LFO_Osc4_Mode
+   kEnv4 = kEnv4 * k_LFO4
     if gk_ADSR_Osc5_On==1 then 
         kEnv5 madsr i(gk_ADSR_Attack_Osc5),i( gk_ADSR_Decay_Osc5),i( gk_ADSR_Sustain_Osc5),i( gk_ADSR_Release_Osc5)
    else
         kEnv5 =1
    endif 
-  
+   k_LFO5 MYLFO gk_LFO_Amp_Osc5,gk_LFO_Freq_Osc5,gk_LFO_Osc5_Mode
+   kEnv5 = kEnv5 * k_LFO5
+   
   if gk_Connect_Osc_Mode == 1 then   
         aFM2 FM kPitchInit, gk_FM_Freq_Mod_Osc2 , gk_FM_Amp_Mod_Osc2, gi_TableOsc2
         aFM3 FM kPitchInit, gk_FM_Freq_Mod_Osc3 , gk_FM_Amp_Mod_Osc3, gi_TableOsc3
@@ -1700,21 +1724,6 @@ endin
 
 
 
-
-/*
-;instrument will be triggered by keyboard widget
-instr 1
-kEnv madsr .1, .2, .6, .4
-
- ; Calculate FM modulator: call UDO 
-  aFM FM kPitchInit,gk_FM_Freq_Mod,gk_FM_Amp_Mod,iTableOscC
-
-
-print gi_TableOsc1
-aOut poscil p5, p4,gi_TableOsc1
-outs aOut*kEnv, aOut*kEnv
-endin
-*/
 
 </CsInstruments>
 <CsScore>
