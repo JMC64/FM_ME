@@ -85,7 +85,14 @@ checkbox bounds(165, 118, 10, 10) channel("ChkBox_Type_Osc5_Pulse")   text("Puls
 checkbox bounds(165, 140, 10, 10) channel("ChkBox_Type_Osc5_Triangle")   text("Triangle")   radiogroup(5) shape("circle") $PROPERTY_CHKBOX_OSCA
 
 
-image bounds(10,145,80,60) file("./images/Mode1.png")
+
+
+; this is 5 goes to 4,3,2 which goes to 1
+;  image bounds(10,145,80,60) file("./images/Mode1.png")  ; make new image
+checkbox bounds(40, 185, 15, 15) channel("ChkBox_Connect_Osc_5")     radiogroup(6) shape("circle") $PROPERTY_CHKBOX_OSCA
+
+
+image bounds(10,190,80,60) file("./images/Mode1.png")
 checkbox bounds(40, 255, 15, 15) channel("ChkBox_Connect_Osc_1")   value(1)  radiogroup(6) shape("circle") $PROPERTY_CHKBOX_OSCA
 image bounds(90,160,45,70) file("./images/Mode2.png")
 checkbox bounds(105, 255, 15, 15) channel("ChkBox_Connect_Osc_2")     radiogroup(6) shape("circle") $PROPERTY_CHKBOX_OSCA
@@ -230,6 +237,15 @@ encoder bounds(184, 220, 85,50) channel("Enc_LFO_Freq_Osc4") value(1)   max(25) 
 
 encoder bounds(238, 160, 85, 50) channel("Enc_LFO_Amp_Osc5") value(0) max(1) min(0) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ; text("Amp") 
 encoder bounds(238, 220, 85,50) channel("Enc_LFO_Freq_Osc5") value(1)   max(25) min(0.01) increment(0.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA ;text("Freq") 
+
+
+ ;-----------------------------------
+  ;- Region:    ___1-SubOscilOscillator GUI
+  ;  SubOscillator
+  rslider bounds(350, 30, 90, 100) channel("Slider_SubOsc_Octave") range(-2, 0, 0, 1, 1) text("SubOsc")  max(0) min(-2) increment(1) valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+  rslider bounds(450, 30, 90, 100) channel("Slider_SubOsc_Mix") range(0, 1, 0, 1, .01) text("Mix") value(0.5) max(1) min(0) increment(.01) valuetextbox(1) $PROPERTY_SLIDER_OSCA2
+
+
 
 }
 
@@ -400,6 +416,12 @@ giTriangle	ftgen	105, 0, 8193, 7, 0, 2048, 1, 2048, 0,2048,-1,2048,0			; triangl
 
 gi_TableOsc1 init 101
 
+gk_LFO_Amp_Osc1 init 0
+gk_LFO_Amp_Osc2 init 0
+gk_LFO_Amp_Osc3 init 0
+gk_LFO_Amp_Osc4 init 0
+gk_LFO_Amp_Osc5 init 0
+
 
 
 #include "./UDO/Midi_trigger.udo"
@@ -414,8 +436,7 @@ gi_TableOsc1 init 101
 
 opcode MYLFO, k,kkk
 k_Amp, k_Freq,k_Wavshape xin
-
- if k_Amp >=0 then 
+ if k_Amp >0 then 
     if k_Wavshape == 1 then 
         kLFO poscil k_Amp,k_Freq, giSine
     elseif k_Wavshape == 2 then 
@@ -428,9 +449,10 @@ k_Amp, k_Freq,k_Wavshape xin
         kLFO poscil k_Amp,k_Freq, giTriangle
     endif
         kLFO = (kLFO+1)*0.5
-    else 
-     kLFO =1
+ else 
+     kLFO = 1
  endif
+;printks "%f  %f\n", 0.2,k_Amp,kLFO
  
 xout kLFO
 endop
@@ -779,6 +801,8 @@ if  gkFlag_ActiveGB_OSC == 1 then
             gk_Connect_Osc_Mode = 3
         elseif chnget:k( "ChkBox_Connect_Osc_4")==1 then 
             gk_Connect_Osc_Mode = 4
+         elseif chnget:k( "ChkBox_Connect_Osc_5")==1 then 
+            gk_Connect_Osc_Mode = 5
         endif
          printk2 gk_Connect_Osc_Mode
     endif
@@ -1049,7 +1073,14 @@ endif
          gk_LFO_Freq_Osc5 =chnget:k("Enc_LFO_Freq_Osc5")
     endif    
                          
-        
+       ;- Region: ____Get Suboscillator
+      ;get the values of the suboscillator
+      if changed:k(chnget:k("Slider_SubOsc_Octave"))==1 then
+          gk_SubOsc_Octave = chnget:k("Slider_SubOsc_Octave")
+      endif
+      if changed:k(chnget:k("Slider_SubOsc_Mix"))==1 then
+          gk_SubOsc_Mix = chnget:k("Slider_SubOsc_Mix")
+      endif   
         
     endif
 
@@ -1425,12 +1456,14 @@ endif
       gkFlag_ActiveGB_FILT=0
       gkFlag_ActiveGB_ENV=0
       gkFlag_ActiveGB_EFFECT=0
+      gkFlag_ActiveGB_LFO=0
       gkFlag_ActiveGB_OSC=1
       chnset k(1), "But_Call_MainOsc" 
       chnset "visible(0)","GB_ADSR"
       chnset "visible(0)","GB_Effects"
       chnset "visible(1)","GB_MainOSc"
       chnset "visible(0)","GB_Filters"
+      chnset "visible(0)","GB_LFO"
   endif
 
 
@@ -1537,6 +1570,13 @@ instr 801
 
   /* Calculate FM modulator: call UDO */ 
    kEnv1  madsr i(gk_ADSR_Attack_Osc1),i( gk_ADSR_Decay_Osc1),i( gk_ADSR_Sustain_Osc1),i( gk_ADSR_Release_Osc1)
+  
+   
+   ; apply LFO on modulator
+   k_LFO1 MYLFO gk_LFO_Amp_Osc1,gk_LFO_Freq_Osc1,gk_LFO_Osc1_Mode
+   kEnv1 = kEnv1 * k_LFO1
+   
+; printk 0, kEnv1   
    if gk_ADSR_Osc2_On==1 then 
         kEnv2 madsr i(gk_ADSR_Attack_Osc2),i( gk_ADSR_Decay_Osc2),i( gk_ADSR_Sustain_Osc2),i( gk_ADSR_Release_Osc2)
    else
@@ -1591,11 +1631,16 @@ instr 801
     elseif gk_Connect_Osc_Mode == 4 then 
        aFM5 FM kPitchInit, gk_FM_Freq_Mod_Osc5 , gk_FM_Amp_Mod_Osc5, gi_TableOsc5
        aFM4 Audio_FM kPitchInit+aFM5*kEnv5, gk_FM_Freq_Mod_Osc4 , gk_FM_Amp_Mod_Osc4, gi_TableOsc4 
-       aFM3 Audio_FM kPitchInit+aFM4*kEnv4, gk_FM_Freq_Mod_Osc3 , gk_FM_Amp_Mod_Osc3, gi_TableOsc3
-       
-       aFM2 FM kPitchInit, gk_FM_Freq_Mod_Osc2 , gk_FM_Amp_Mod_Osc2, gi_TableOsc2  
-       
+       aFM3 Audio_FM kPitchInit+aFM4*kEnv4, gk_FM_Freq_Mod_Osc3 , gk_FM_Amp_Mod_Osc3, gi_TableOsc3      
+       aFM2 FM kPitchInit, gk_FM_Freq_Mod_Osc2 , gk_FM_Amp_Mod_Osc2, gi_TableOsc2       
        aOut1 poscil 1,kPitchInit+aFM2*kEnv2+aFM3*kEnv3,gi_TableOsc1 
+    elseif gk_Connect_Osc_Mode == 5 then 
+       aFM5 FM kPitchInit, gk_FM_Freq_Mod_Osc5 , gk_FM_Amp_Mod_Osc5, gi_TableOsc5
+       aFM5 = aFM5*kEnv5
+       aFM4 Audio_FM kPitchInit+aFM5, gk_FM_Freq_Mod_Osc4 , gk_FM_Amp_Mod_Osc4, gi_TableOsc4 
+       aFM3 Audio_FM kPitchInit+aFM5, gk_FM_Freq_Mod_Osc3 , gk_FM_Amp_Mod_Osc3, gi_TableOsc3      
+       aFM2 Audio_FM kPitchInit+aFM5, gk_FM_Freq_Mod_Osc2 , gk_FM_Amp_Mod_Osc2, gi_TableOsc2       
+       aOut1 poscil 1,kPitchInit+aFM2*kEnv2+aFM3*kEnv3+aFM4*kEnv4,gi_TableOsc1 
    endif
    
    
